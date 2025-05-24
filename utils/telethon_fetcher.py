@@ -1,5 +1,7 @@
 import os
 import time
+import logging
+import io
 from html import escape
 from collections import defaultdict
 from dotenv import load_dotenv
@@ -7,13 +9,21 @@ from telethon import TelegramClient
 from telethon.sessions import StringSession
 from telethon.tl.custom.message import Message
 from telethon.tl.types import MessageEntityBold, MessageEntityItalic, Channel
+
 from utils.json_storage import load_monitoring_groups
+from utils.media_helper import download_file_and_get_url
 
 load_dotenv()
 
-API_ID = int(os.getenv("API_ID"))
+API_ID = os.getenv("API_ID")
 API_HASH = os.getenv("API_HASH")
 SESSION_STRING = os.getenv("TELETHON_SESSION")
+
+if not API_ID or not API_HASH or not SESSION_STRING:
+    raise RuntimeError("❌ Не знайдено одне з обовʼязкових середовищних змінних: API_ID, API_HASH, TELETHON_SESSION")
+
+API_ID = int(API_ID)
+
 STAGING_CHANNEL_ID = -1002651113048  # staging-канал
 POST_LIMIT = 20
 
@@ -84,10 +94,8 @@ async def forward_post_to_staging(post: dict, bot) -> dict:
         original_chat_id = entity.id if hasattr(entity, "id") else post["channel_id"]
 
         if post["media_type"] == "album":
-            # 🟡 Альбоми в Facebook поки не підтримуються
             return {}
 
-        # 🔁 Forward single message
         msg = await client.forward_messages(
             entity=STAGING_CHANNEL_ID,
             messages=post["original_msg_id"],
@@ -97,18 +105,15 @@ async def forward_post_to_staging(post: dict, bot) -> dict:
         post["original_chat_id"] = original_chat_id
         post["message_id"] = msg.id
 
-        # ✅ Отримуємо фото без збереження на диск
         if post["media_type"] == "photo" and msg.photo:
             buffer = io.BytesIO()
             await client.download_media(msg.photo, file=buffer)
             buffer.seek(0)
             post["photo_url"] = await download_file_and_get_url(bot=bot, file_stream=buffer)
 
-        # 🧾 Отримуємо HTML-текст
         html_text = telethon_to_html_safe(msg)
         text_lines = html_text.strip().splitlines()
 
-        # ✂️ Обрізання підпису
         channel_id_for_trim = to_telegram_channel_id(original_chat_id)
         settings = get_trim_settings(post.get("category", ""), channel_id_for_trim)
         trim_count = settings.get("lines_to_trim", 0)
@@ -129,7 +134,6 @@ async def forward_post_to_staging(post: dict, bot) -> dict:
 
     finally:
         await client.disconnect()
-
 
 async def fetch_posts_for_category(channels: list[dict]) -> list[dict]:
     await client.start()
@@ -224,7 +228,6 @@ async def fetch_posts_for_category(channels: list[dict]) -> list[dict]:
     await client.disconnect()
     all_posts.sort(key=lambda x: x["score"], reverse=True)
     return all_posts
-
 
 async def resolve_channel_by_username(username: str) -> dict | None:
     try:
