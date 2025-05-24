@@ -1,6 +1,6 @@
 telethon
 python-dotenv
-openai==0.28
+openai>=1.12.0
 python-telegram-bot==13.15
 aiogram==3.20.0.post0
 aiohttp
