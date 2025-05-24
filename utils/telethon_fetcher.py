@@ -7,7 +7,6 @@ from telethon import TelegramClient
 from telethon.sessions import StringSession
 from telethon.tl.custom.message import Message
 from telethon.tl.types import MessageEntityBold, MessageEntityItalic, Channel
-
 from utils.json_storage import load_monitoring_groups
 
 load_dotenv()
