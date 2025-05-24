@@ -1,0 +1,78 @@
+{
+  "медіа к24": {
+    "channels": [
+      {
+        "id": -1001206855302,
+        "username": "@kyivtv",
+        "title": "КИЇВ24",
+        "lines_to_trim": 5,
+        "trim_phrases": [
+          "ПІДПИСАТИСЯ",
+          "Надалі",
+          "фейс",
+          "бук",
+          "тікток",
+          "телеграм",
+          "фейсбук",
+          "ДПИСАТИСЯ",
+          "ЕГРАМ"
+        ]
+      }
+    ],
+    "skip_seen": true
+  },
+  "@channel5UA": {
+    "channels": [
+      {
+        "id": -1001381533598,
+        "username": "@channel5UA",
+        "title": "5 канал | 5.ua",
+        "lines_to_trim": 2,
+        "trim_phrases": [
+          "Підписатися",
+          "WhatsApp"
+        ]
+      }
+    ],
+    "skip_seen": true
+  },
+  "м Дніпро": {
+    "channels": [
+      {
+        "id": -1001199035757,
+        "username": "@nashemisto_dp",
+        "title": "Наше Місто Дніпро",
+        "lines_to_trim": 0,
+        "trim_phrases": []
+      }
+    ],
+    "skip_seen": true
+  },
+  "Kharkiv": {
+    "channels": [],
+    "skip_seen": true
+  },
+  "Одеса": {
+    "channels": [],
+    "skip_seen": true
+  },
+  "Полтава_та_обл": {
+    "channels": [
+      {
+        "id": -1001136975672,
+        "username": "@suspilnepoltava",
+        "title": "Суспільне Полтава",
+        "lines_to_trim": 0,
+        "trim_phrases": []
+      },
+      {
+        "id": -1001596033298,
+        "username": "@poltavskaOVA",
+        "title": "🇺🇦Володимир Когут /Полтавська ОВА",
+        "lines_to_trim": 0,
+        "trim_phrases": []
+      }
+    ],
+    "skip_seen": true
+  }
+}
