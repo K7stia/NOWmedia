@@ -2,12 +2,9 @@ from utils.telethon_fetcher import fetch_posts_for_category
 from datetime import datetime, timezone
 import logging
 
-# 🔧 Лог-файл
+# 🔧 Виводимо лог лише в консоль (Railway або локально)
 logging.basicConfig(
     level=logging.INFO,
-    filename="monitoring_scores.log",
-    filemode="a",
-    encoding="utf-8",
     format="%(asctime)s - %(message)s"
 )
 
